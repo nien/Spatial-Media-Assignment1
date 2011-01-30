@@ -1,6 +1,6 @@
 //
 //  GridApp.cpp
-//  Spatial-Media-Assignment1
+//  Grid
 //
 //  Created by Nien Lam on 1/29/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
