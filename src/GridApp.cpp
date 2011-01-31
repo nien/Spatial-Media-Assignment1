@@ -20,14 +20,14 @@ using namespace std;
 class GridApp : public AppBasic 
 {
   public:
-	GridApp() : mDrawState(DRAW_STATE_1), mMouseLoc(-1, -1), mRedSquarePos(0, 0)  {}
+	GridApp() : mDrawState( DRAW_STATE_1 ), mMouseLoc( -1, -1 ), mRedSquarePos( 0, 0 )  {}
 	void setup();
-	void mouseDown(MouseEvent event);	
+	void mouseDown( MouseEvent event );	
 	void update();
 	void draw();
-	void prepareSettings(Settings *settings);
-	void keyDown(KeyEvent event); 
-	void mouseMove(MouseEvent event) { mMouseLoc = event.getPos(); } 
+	void prepareSettings( Settings *settings );
+	void keyDown( KeyEvent event ); 
+	void mouseMove( MouseEvent event ) { mMouseLoc = event.getPos(); } 
   private:
 	// Constants for application.
 	static const int SQUARE_SIZE  = 10;
@@ -49,13 +49,13 @@ class GridApp : public AppBasic
 	Vec2i mMouseLoc;
 	
 	// Draws a (width x height) grid of white squares.
-	void drawGrid1(int width, int height);
+	void drawGrid1( int width, int height );
 
 	// Draws a (width x height) grid of white squares with red square at redSquarePos.
-	void drawGrid2(int width, int height, Vec2i redSquarePos);
+	void drawGrid2( int width, int height, Vec2i redSquarePos );
 
 	// Draws a (width x height) grid of red and white squares in a checker pattern.
-	void drawGrid3(int width, int height);
+	void drawGrid3( int width, int height );
 
 	// Draws text display red square position.
 	void drawText();
@@ -64,10 +64,10 @@ class GridApp : public AppBasic
 const string GridApp::DRAW_STATE_TEXT[] = { "Draw Grid 1", "Draw Grid 2", "Draw Grid 3" };
 
 
-void GridApp::prepareSettings(Settings *settings)
+void GridApp::prepareSettings( Settings *settings )
 {
-    settings->setWindowSize(800, 600);
-    settings->setFrameRate(60.0f);
+    settings->setWindowSize( 800, 600 );
+    settings->setFrameRate( 60.0f );
 }
 
 void GridApp::setup()
@@ -75,7 +75,7 @@ void GridApp::setup()
 
 }
 
-void GridApp::mouseDown(MouseEvent event)
+void GridApp::mouseDown( MouseEvent event )
 {
 }
 
@@ -85,26 +85,26 @@ void GridApp::update()
 
 void GridApp::draw()
 {
-	gl::clear(Color(0, 0, 0)); 
-	gl::enableAlphaBlending(false);
+	gl::clear( Color( 0, 0, 0 ) ); 
+	gl::enableAlphaBlending( false );
 
 	switch(mDrawState) 
 	{
 		case DRAW_STATE_1:
-			drawGrid1(GRID_WIDTH, GRID_HEIGHT);
+			drawGrid1( GRID_WIDTH, GRID_HEIGHT );
 			break;
 
 		case DRAW_STATE_2:
-			drawGrid2(GRID_WIDTH, GRID_HEIGHT, mRedSquarePos);
+			drawGrid2( GRID_WIDTH, GRID_HEIGHT, mRedSquarePos );
 			break;
 		
 		case DRAW_STATE_3:
-			drawGrid3(GRID_WIDTH, GRID_HEIGHT);
+			drawGrid3( GRID_WIDTH, GRID_HEIGHT );
 			break;
 	
 		default:
 			console() << __PRETTY_FUNCTION__ << ":" << __LINE__ << ":" << "Unsupported Draw State" << endl;
-			exit(1);
+			exit( 1 );
 	}
 
 	drawText();
@@ -112,116 +112,116 @@ void GridApp::draw()
 
 void GridApp::drawText()
 {
-	gl::color(Color(1.0f, 1.0f, 1.0f));
+	gl::color( Color( 1.0f, 1.0f, 1.0f ) );
 	
 	TextLayout textLayout;
-	textLayout.clear(ColorA(0.0f, 0.0f, 0.0f, 0.0f));
-	textLayout.setFont(Font("Arial Black", 20));
-	textLayout.setColor(ColorA(0.0f, 0.95f, 0.5f, 1.0f));
+	textLayout.clear( ColorA( 0.0f, 0.0f, 0.0f, 0.0f ) );
+	textLayout.setFont( Font( "Arial Black", 20 ) );
+	textLayout.setColor( ColorA(0.0f, 0.95f, 0.5f, 1.0f ) );
 	
-	textLayout.addLine(DRAW_STATE_TEXT[mDrawState]);
-	if (mDrawState == DRAW_STATE_2) 
+	textLayout.addLine( DRAW_STATE_TEXT[mDrawState] );
+	if ( mDrawState == DRAW_STATE_2 ) 
 	{
 		stringstream str;
 		str << "Red Square " << mRedSquarePos.x << ":" << mRedSquarePos.y;
-		textLayout.addLine(str.str());
+		textLayout.addLine( str.str() );
 	}
 	
-	gl::Texture texture = gl::Texture(textLayout.render(true, false));
+	gl::Texture texture = gl::Texture( textLayout.render( true, false ) );
 	texture.enableAndBind();
-	gl::draw(texture, Vec2f(getWindowWidth() - 200, 10));
+	gl::draw( texture, Vec2f( getWindowWidth() - 200, 10 ) );
 	texture.unbind();
 }
 
-void GridApp::keyDown(KeyEvent event) 
+void GridApp::keyDown( KeyEvent event ) 
 {
 	// Change draw state based on keyboard input.
-    if (event.getChar() == '1')
+    if ( event.getChar() == '1' )
 	{
 		mDrawState = DRAW_STATE_1;
 	}
-    else if (event.getChar() == '2')
+    else if ( event.getChar() == '2' )
 	{	
 		mRedSquarePos = Vec2i::zero();
 		mDrawState = DRAW_STATE_2;
 	}
-	else if (event.getChar() == '3')
+	else if ( event.getChar() == '3' )
 	{
 		mDrawState = DRAW_STATE_3;
 	}
 	
 	// Change the red square position when using the arrow keys.
 	// Keep position contained within the grid.
-    if (event.getCode() == KeyEvent::KEY_LEFT)
+    if ( event.getCode() == KeyEvent::KEY_LEFT )
 	{
-		mRedSquarePos.x = max(0, mRedSquarePos.x - 1); 
+		mRedSquarePos.x = max( 0, mRedSquarePos.x - 1 ); 
 	} 
-	else if(event.getCode() == KeyEvent::KEY_RIGHT)
+	else if ( event.getCode() == KeyEvent::KEY_RIGHT )
 	{
-		mRedSquarePos.x = min(GRID_WIDTH - 1, mRedSquarePos.x + 1); 
+		mRedSquarePos.x = min( GRID_WIDTH - 1, mRedSquarePos.x + 1 ); 
     }
-	else if(event.getCode() == KeyEvent::KEY_UP)
+	else if ( event.getCode() == KeyEvent::KEY_UP )
 	{
-		mRedSquarePos.y = max(0, mRedSquarePos.y - 1); 
+		mRedSquarePos.y = max( 0, mRedSquarePos.y - 1 ); 
 	}
-	else if(event.getCode() == KeyEvent::KEY_DOWN)
+	else if ( event.getCode() == KeyEvent::KEY_DOWN )
 	{
-		mRedSquarePos.y = min(GRID_HEIGHT - 1, mRedSquarePos.y + 1); 
+		mRedSquarePos.y = min( GRID_HEIGHT - 1, mRedSquarePos.y + 1 ); 
 	}
 }
 
-void GridApp::drawGrid1(int width, int height)
+void GridApp::drawGrid1( int width, int height )
 {
-	gl::color(Color(1.0f, 1.0f, 1.0f));
-	for (int ii = 0; ii < height; ii++) 
+	gl::color( Color( 1.0f, 1.0f, 1.0f ) );
+	for ( int ii = 0; ii < height; ii++ ) 
 	{
-		for (int jj = 0; jj < width; jj++) 
+		for ( int jj = 0; jj < width; jj++ ) 
 		{
-			Vec2i location(jj * (SQUARE_SIZE + GRID_SPACING), ii * (SQUARE_SIZE + GRID_SPACING));
-			Rectf rect(location.x, location.y, location.x + SQUARE_SIZE, location.y + SQUARE_SIZE);
-			gl::drawSolidRect(rect);
+			Vec2i location( jj * ( SQUARE_SIZE + GRID_SPACING ), ii * ( SQUARE_SIZE + GRID_SPACING ) );
+			Rectf rect( location.x, location.y, location.x + SQUARE_SIZE, location.y + SQUARE_SIZE );
+			gl::drawSolidRect( rect );
 		}
 	}
 }
 
-void GridApp::drawGrid2(int width, int height, Vec2i redSquarePos)
+void GridApp::drawGrid2( int width, int height, Vec2i redSquarePos )
 {
-	for (int ii = 0; ii < height; ii++) 
+	for ( int ii = 0; ii < height; ii++ ) 
 	{
-		for (int jj = 0; jj < width; jj++) 
+		for ( int jj = 0; jj < width; jj++ ) 
 		{
-			Vec2i location(jj * (SQUARE_SIZE + GRID_SPACING), ii * (SQUARE_SIZE + GRID_SPACING));
+			Vec2i location( jj * ( SQUARE_SIZE + GRID_SPACING ), ii * ( SQUARE_SIZE + GRID_SPACING ) );
 
 			// Make square red if position equals redSquarePos or if mouse is over square.
-			if ( (redSquarePos.x == jj && redSquarePos.y == ii) ||
-				 (location.x <= mMouseLoc.x && mMouseLoc.x <= location.x + SQUARE_SIZE &&
-				  location.y <= mMouseLoc.y && mMouseLoc.y <= location.y + SQUARE_SIZE) )
+			if ( ( redSquarePos.x == jj && redSquarePos.y == ii ) ||
+				 ( location.x <= mMouseLoc.x && mMouseLoc.x <= location.x + SQUARE_SIZE &&
+				   location.y <= mMouseLoc.y && mMouseLoc.y <= location.y + SQUARE_SIZE ) )
 			{
-				gl::color(Color(1.0f, 0.0f, 0.0f));
+				gl::color( Color( 1.0f, 0.0f, 0.0f ) );
 			}
 			else
 			{
-				gl::color(Color(1.0f, 1.0f, 1.0f));
+				gl::color( Color( 1.0f, 1.0f, 1.0f ) );
 			}
 			
-			Rectf rect(location.x, location.y, location.x + SQUARE_SIZE, location.y + SQUARE_SIZE);
-			gl::drawSolidRect(rect);
+			Rectf rect( location.x, location.y, location.x + SQUARE_SIZE, location.y + SQUARE_SIZE );
+			gl::drawSolidRect( rect );
 		}
 	}
 }
 
-void GridApp::drawGrid3(int width, int height)
+void GridApp::drawGrid3( int width, int height )
 {
 	// Toggle flag used to create checker pattern.
 	bool toggle = false;
 	
-	for (int ii = 0; ii < height; ii++) 
+	for ( int ii = 0; ii < height; ii++ ) 
 	{
 		toggle = !toggle;
-		for (int jj = 0; jj < width; jj++) 
+		for ( int jj = 0; jj < width; jj++ ) 
 		{
 			toggle = !toggle;
-			if (toggle)	
+			if ( toggle )	
 			{
 				gl::color(Color(1.0f, 0.0f, 0.0f));
 			}
@@ -230,9 +230,9 @@ void GridApp::drawGrid3(int width, int height)
 				gl::color(Color(1.0f, 1.0f, 1.0f));
 			}
 			
-			Vec2i location(jj * (SQUARE_SIZE + GRID_SPACING), ii * (SQUARE_SIZE + GRID_SPACING));
-			Rectf rect(location.x, location.y, location.x + SQUARE_SIZE, location.y + SQUARE_SIZE);
-			gl::drawSolidRect(rect);
+			Vec2i location( jj * ( SQUARE_SIZE + GRID_SPACING ), ii * ( SQUARE_SIZE + GRID_SPACING ) );
+			Rectf rect( location.x, location.y, location.x + SQUARE_SIZE, location.y + SQUARE_SIZE );
+			gl::drawSolidRect( rect );
 		}
 	}
 }
