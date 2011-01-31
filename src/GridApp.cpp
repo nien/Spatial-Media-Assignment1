@@ -88,7 +88,7 @@ void GridApp::draw()
 	gl::clear( Color( 0, 0, 0 ) ); 
 	gl::enableAlphaBlending( false );
 
-	switch(mDrawState) 
+	switch( mDrawState ) 
 	{
 		case DRAW_STATE_1:
 			drawGrid1( GRID_WIDTH, GRID_HEIGHT );
@@ -117,7 +117,7 @@ void GridApp::drawText()
 	TextLayout textLayout;
 	textLayout.clear( ColorA( 0.0f, 0.0f, 0.0f, 0.0f ) );
 	textLayout.setFont( Font( "Arial Black", 20 ) );
-	textLayout.setColor( ColorA(0.0f, 0.95f, 0.5f, 1.0f ) );
+	textLayout.setColor( ColorA( 0.0f, 0.95f, 0.5f, 1.0f ) );
 	
 	textLayout.addLine( DRAW_STATE_TEXT[mDrawState] );
 	if ( mDrawState == DRAW_STATE_2 ) 
@@ -223,11 +223,11 @@ void GridApp::drawGrid3( int width, int height )
 			toggle = !toggle;
 			if ( toggle )	
 			{
-				gl::color(Color(1.0f, 0.0f, 0.0f));
+				gl::color( Color( 1.0f, 0.0f, 0.0f ) );
 			}
 			else
 			{
-				gl::color(Color(1.0f, 1.0f, 1.0f));
+				gl::color( Color( 1.0f, 1.0f, 1.0f ) );
 			}
 			
 			Vec2i location( jj * ( SQUARE_SIZE + GRID_SPACING ), ii * ( SQUARE_SIZE + GRID_SPACING ) );
